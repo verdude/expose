@@ -24,7 +24,7 @@ const Link = styled.a`
   
 `
 
-var name = "Bookmarks"
+var name = "name"
 
 class App extends Component {
   render() {
@@ -35,9 +35,9 @@ class App extends Component {
         </Header>
         <Slider mediums={mediums} />
         <Footer>
-          <Link>Instagram</Link>
-          <Link>Facebook</Link>
-          <Link>Blog</Link>
+          <Link>link1</Link>
+          <Link>link2</Link>
+          <Link>link4</Link>
         </Footer>
       </div>
     );
