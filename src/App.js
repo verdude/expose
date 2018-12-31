@@ -7,6 +7,7 @@ const Header = styled.header`
   display: flex;
   justify-content: center;
   background: palevioletred;
+  font-family: 'Great Vibes', cursive;
 `
 
 const Name = styled.div`
@@ -21,50 +22,35 @@ const Footer = styled.footer`
 `
 
 const Link = styled.a`
-  
+
 `
 
-var name = "name"
+const Page = styled.div`
+`
+
+const name = 'name'
 
 class App extends Component {
+
+  componentDidMount() {
+
+  }
+
   render() {
     return (
-      <div>
+      <Page>
         <Header>
           <Name>{name}</Name>
         </Header>
-        <Slider mediums={mediums} />
+        <Slider />
         <Footer>
           <Link>link1</Link>
           <Link>link2</Link>
           <Link>link4</Link>
         </Footer>
-      </div>
+      </Page>
     );
   }
 }
 
-var mediums = [
-  {
-    "img": "https://images.unsplash.com/photo-1527602433043-7d8923f324eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
-    "title": "Sketch"
-  },
-  {
-    "img": "https://images.unsplash.com/photo-1527602433043-7d8923f324eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
-    "title": "Acrylic"
-  },
-  {
-    "img": "https://images.unsplash.com/photo-1527602433043-7d8923f324eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
-    "title": "Charcoal"
-  },
-  {
-    "img": "https://images.unsplash.com/photo-1527602433043-7d8923f324eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
-    "title": "Watercolor"
-  },
-  {
-    "img": "https://images.unsplash.com/photo-1527602433043-7d8923f324eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
-    "title": "Something Else"
-  }
-]
-
-export default App;
+export default App
