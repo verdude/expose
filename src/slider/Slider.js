@@ -82,30 +82,45 @@ class Slider extends Component {
   }
 
   shift(id, right){
-    if (this.state.transitioning) {
-      return;
-    } else {
-      this.state.transitioning = true;
-    }
+    if (this.state.transitioning) { return; }
+    else { this.setState({ transitioning: true }); }
     var neg = right ? 1 : -1;
     var els = document.querySelectorAll(id);
-    [].map.call(els, function(el) {
-      console.log(el.getBoundingClientRect());
-    })
     var pos = 0;
-    var id = setInterval(frame, 5);
+    var m = Array.apply(null, this.state.mediums);
+    if (right) {
+      m.unshift(m.pop());
+      debugger;
+      this.setState({ mediums: m });
+      [].forEach.call(els, (el) => {
+        el.style.left = '-'+(IMG_WIDTH+IMG_MARGIN)*2+'px;'
+      });
+    }
     var that = this;
+    var interval = setInterval(frame, 5);
+
     function frame() {
-      if (pos == Math.abs(IMG_WIDTH+IMG_MARGIN*2)) {
-        clearInterval(id);
-        let m = Array.apply(null, that.state.mediums);
-        m.push(neg ? m.shift() : m.pop());
+      if (pos >= Math.abs(IMG_WIDTH+IMG_MARGIN*2)) {
+        clearInterval(interval);
+        m = Array.apply(null, that.state.mediums);
+        if (!right) {
+          m.push(m.shift());
+        }
         that.setState({ mediums: m });
-        that.state.transitioning = false;
+        if (right) {
+
+        } else {
+          [].forEach.call(els, function(el) {
+            // The boys must snap back to reality
+            el.style.left = '0px';
+          });
+        }
+        that.setState({ transitioning: false });
       } else {
         pos+=2;
         [].forEach.call(els, ((elem) => {
-          elem.style.left = pos*neg + "px";
+          let n = Number(elem.style.left) || 0;
+          elem.style.left = (n+(pos*neg)) + "px";
         }))
       }
     }
@@ -135,23 +150,28 @@ class Slider extends Component {
     let mediums = [
       {
         "img": "https://images.unsplash.com/photo-1527602433043-7d8923f324eb",
-        "title": "Sketch"
+        "title": "Sketch",
+        "left": '0px'
       },
       {
         "img": "https://images.unsplash.com/photo-1527602433043-7d8923f324eb",
-        "title": "Acrylic"
+        "title": "Acrylic",
+        "left": '0px'
       },
       {
         "img": "https://images.unsplash.com/photo-1527602433043-7d8923f324eb",
-        "title": "Charcoal"
+        "title": "Charcoal",
+        "left": '0px'
       },
       {
         "img": "https://images.unsplash.com/photo-1546029115-712217181a58",
-        "title": "Watercolor"
+        "title": "Watercolor",
+        "left": '0px'
       },
       {
         "img": "https://images.unsplash.com/photo-1527602433043-7d8923f324eb",
-        "title": "Something Else"
+        "title": "Something Else",
+        "left": '0px'
       }
     ]
     mediums = await this.gen_hashes(mediums)
@@ -159,14 +179,13 @@ class Slider extends Component {
   }
 
   render() {
-    var that = this;
     return (
       <SliderContainer>
           <Arrow onClick={this.shift.bind(this, '.img', false)} />
           <Selection>
-            {this.state.mediums.map((m, i, arr) => {
+            {this.state.mediums.map((m) => {
               return (
-                <ImgContainer className='img' key={m.key} >
+                <ImgContainer style={{left: m.left}} className='img' key={m.key} >
                   <SquareImg src={m.img} />
                 </ImgContainer>
               )
