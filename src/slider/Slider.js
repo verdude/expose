@@ -47,13 +47,6 @@ const SliderContainer = styled.div`
 const Arrow = styled.a`
   display: inline-block;
   margin: 5px;
-  ${props => props.right ? css`
-    right: 20px;
-    border-left: 30px solid palevioletred;
-  ` : css`
-    left: 20px;
-    border-right: 30px solid palevioletred;
-  `}
   border-top: 40px solid transparent;
   border-bottom: 40px solid transparent;
   width: 0;
@@ -65,22 +58,57 @@ const Arrow = styled.a`
   -moz-transition: 0.25s ease opacity;
   -o-transition: 0.25s ease opacity;
   -ms-transition: 0.25s ease opacity;
+
+  :hover {
+    opacity: 1;
+  }
+
+  ${props => props.right ? css`
+    right: 20px;
+    border-left: 30px solid palevioletred;
+  ` : css`
+    left: 20px;
+    border-right: 30px solid palevioletred;
+  `}
 `
 
 class Slider extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      mediums: []
-    }
+      mediums: [],
+      transitioning: false
+    };
   }
 
   shift(id, right){
+    if (this.state.transitioning) {
+      return;
+    } else {
+      this.state.transitioning = true;
+    }
+    var neg = right ? 1 : -1;
     var els = document.querySelectorAll(id);
-    console.log(right);
-    [].forEach.call(els, (el) => {
-      el.classList.toggle('dancer')
+    [].map.call(els, function(el) {
+      console.log(el.getBoundingClientRect());
     })
+    var pos = 0;
+    var id = setInterval(frame, 5);
+    var that = this;
+    function frame() {
+      if (pos == Math.abs(IMG_WIDTH+IMG_MARGIN*2)) {
+        clearInterval(id);
+        let m = Array.apply(null, that.state.mediums);
+        m.push(neg ? m.shift() : m.pop());
+        that.setState({ mediums: m });
+        that.state.transitioning = false;
+      } else {
+        pos+=2;
+        [].forEach.call(els, ((elem) => {
+          elem.style.left = pos*neg + "px";
+        }))
+      }
+    }
   }
 
   arrToHex(n) {
@@ -92,7 +120,7 @@ class Slider extends Component {
     second = second > 9 ? hexies[second % 10] : second+''
     return first + second
   }
-  
+
   gen_hashes(mediums) {
     let encoder = new TextEncoder()
     return Promise.all(mediums.map(async m => {
@@ -129,13 +157,14 @@ class Slider extends Component {
     mediums = await this.gen_hashes(mediums)
     this.setState({mediums: mediums})
   }
-  
+
   render() {
+    var that = this;
     return (
       <SliderContainer>
           <Arrow onClick={this.shift.bind(this, '.img', false)} />
           <Selection>
-            {this.state.mediums.map(m => {
+            {this.state.mediums.map((m, i, arr) => {
               return (
                 <ImgContainer className='img' key={m.key} >
                   <SquareImg src={m.img} />

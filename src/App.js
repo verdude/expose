@@ -15,7 +15,6 @@ const Name = styled.div`
 `
 
 const Footer = styled.footer`
-  background: lightgrey;
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
