@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+import { Route, Switch } from 'react-router-dom';
+
 import Slider from './slider/Slider'
+import Grid from './grid/Grid'
 
 const Header = styled.header`
   display: flex;
@@ -41,7 +44,10 @@ class App extends Component {
         <Header>
           <Name>{name}</Name>
         </Header>
-        <Slider />
+        <Switch>
+            <Route exact path='/' component={Slider} />
+            <Route exact path='/grid' component={Grid} />
+        </Switch>
         <Footer>
           <Link>link1</Link>
           <Link>link2</Link>
