@@ -87,14 +87,15 @@ class Slider extends Component {
     var neg = right ? 1 : -1;
     var els = document.querySelectorAll(id);
     var pos = 0;
+    const ppf = 2;
     var m = Array.apply(null, this.state.mediums);
     if (right) {
       m.unshift(m.pop());
-      debugger;
-      this.setState({ mediums: m });
-      [].forEach.call(els, (el) => {
-        el.style.left = '-'+(IMG_WIDTH+IMG_MARGIN)*2+'px;'
+      m = m.map((el) => {
+        el.left = '-'+(IMG_WIDTH+IMG_MARGIN*2)+'px';
+        return el;
       });
+      this.setState({ mediums: m });
     }
     var that = this;
     var interval = setInterval(frame, 5);
@@ -107,20 +108,16 @@ class Slider extends Component {
           m.push(m.shift());
         }
         that.setState({ mediums: m });
-        if (right) {
-
-        } else {
-          [].forEach.call(els, function(el) {
-            // The boys must snap back to reality
-            el.style.left = '0px';
-          });
-        }
+        [].forEach.call(els, function(el) {
+          // The boys must snap back to reality
+          el.style.left = '0px';
+        });
         that.setState({ transitioning: false });
       } else {
-        pos+=2;
+        pos+=ppf;
         [].forEach.call(els, ((elem) => {
-          let n = Number(elem.style.left) || 0;
-          elem.style.left = (n+(pos*neg)) + "px";
+          let n = Number(elem.style.left.slice(0, -2)) || 0;
+          elem.style.left = (n+(ppf*neg)) + "px";
         }))
       }
     }
