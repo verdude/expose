@@ -9,7 +9,7 @@ import Grid from './grid/Grid'
 const Header = styled.header`
   display: flex;
   justify-content: center;
-  background: palevioletred;
+  background: teal;
   font-family: 'Great Vibes', cursive;
 `
 

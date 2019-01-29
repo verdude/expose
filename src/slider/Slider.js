@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 
 const IMG_WIDTH = 300
-const IMG_HEIGHT = 300
 const IMG_MARGIN = 5
 
 const Selection = styled.div`
@@ -12,27 +11,6 @@ const Selection = styled.div`
     white-space: nowrap;
     overflow: hidden;
     display: inline-block;
-`
-
-const ImgContainer = styled.div`
-    display: inline-block;
-    position: relative;
-    height: ${IMG_HEIGHT}px;
-    width: ${IMG_WIDTH}px;
-    padding: 0px;
-    overflow: hidden;
-    margin: ${IMG_MARGIN}px;
-`
-
-const SquareImg = styled.img`
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    height: 100%;
-    width: auto;
-    -webkit-transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%);
-    transform: translate(-50%,-50%);
 `
 
 const SliderContainer = styled.div`
@@ -62,10 +40,10 @@ const Arrow = styled.a`
 
     ${props => props.right ? css`
         right: 20px;
-        border-left: 30px solid palevioletred;
+        border-left: 30px solid teal;
     ` : css`
         left: 20px;
-        border-right: 30px solid palevioletred;
+        border-right: 30px solid teal;
     `}
 `
 
