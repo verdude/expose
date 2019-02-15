@@ -1,5 +1,5 @@
-import React from 'react'
-import styled, { keyframes } from 'styled-components'
+import React, { Component } from 'react'
+import styled, { keyframes, css } from 'styled-components'
 
 const shimmer = keyframes`
 0% {
@@ -17,24 +17,52 @@ Container = styled.div`
 `,
 
 Thumbnail = styled.div`
-	background-color: gray;
-	background: url(${props => props.src}) center no-repeat;
-	background-size: cover;
-
 	width: 17.8rem;
 	height: 10rem;
 
 	margin-bottom: 1rem;
+	
+	${	
+		props => !props.loaded ?
+		css`animation: ${shimmer} 2s linear infinite;
+		animation-fill-mode: forwards;
+		background-color: #eee;
+		background-image: linear-gradient(to right, #eee 0%, #fff 50%, #eee 100%);
+		background-repeat: no-repeat;`
+		:
+		css`background: url(${props => {return props.src}}) center no-repeat;
+		background-color: gray;
+		background-size: cover;`
+	}
 `
 
-const SliderItem = props => {
-	const { title, img } = { ...props.data }
-	return (
-		<Container>
-			<Thumbnail src={img} />
-			<h4>{title}</h4>
-		</Container>
-	)
+class SliderItem extends Component {
+	constructor(props) {
+		super(props)
+		this.state = {
+			img: props.data.img,
+			title: props.data.title,
+			loaded: false
+		}
+	}
+
+	componentWillMount() {
+		var that = this
+		var temp = new Image();
+		temp.onload = () => {
+			that.setState({loaded: true})
+		}
+		temp.src = this.state.img
+	}
+
+	render() {
+		return (
+			<Container>
+				<Thumbnail src={this.state.img} loaded={this.state.loaded} />
+				<h4>{this.state.title}</h4>
+			</Container>
+		)
+	}
 }
 
 export default SliderItem
