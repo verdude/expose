@@ -16,22 +16,6 @@ const Container = styled.div`
 	}
 `,
 
-	Header = styled.div`
-		display: grid;
-		grid-template-columns: 18rem auto;
-		justify-items: start;
-		padding-bottom: 2rem;
-
-		& > p {
-			color: #a4a4a4;
-		}
-
-		& a {
-			color: black;
-			text-decoration: none;
-		}
-	`,
-
 	SlideWrapper = styled.div`
 		display: grid;
 		grid-auto-flow: column;
@@ -49,6 +33,8 @@ const Container = styled.div`
 			background: transparent;
 		}
 
+		-ms-overflow-style: -ms-autohiding-scrollbar;
+
 		& > div:last-child {
 			padding-right: 6rem;
 		}
@@ -63,7 +49,7 @@ const Container = styled.div`
 		position: absolute;
 		top: 0;
 
-		height: 10rem;
+		height: 17.8rem;
 		width: 6rem;
 
 		cursor: pointer;
@@ -113,10 +99,9 @@ export default class Slider extends Component {
 		}
 
 		this.wrapper = React.createRef()
-
-		this.scrollListener = this.scrollListener.bind(this)
 		this.scrollLeft = this.scrollLeft.bind(this)
 		this.scrollRight = this.scrollRight.bind(this)
+		this.scrollListener = this.scrollListener.bind(this)
 	}
 
 	scrollListener(e) {
@@ -141,45 +126,6 @@ export default class Slider extends Component {
 		}
 	}
 
-	gen_hashes(mediums) {
-        return mediums.map((m, i) => {
-            m.key = i;
-            return m;
-        });
-    }
-	
-	async componentDidMount() {
-        let mediums = [
-            {
-                "img": "https://images.unsplash.com/photo-1527602433043-7d8923f324eb",
-                "title": "Sketch",
-                "left": '0px'
-            },
-            {
-                "img": "https://images.unsplash.com/photo-1527602433043-7d8923f324eb",
-                "title": "Acrylic",
-                "left": '0px'
-            },
-            {
-                "img": "https://images.unsplash.com/photo-1527602433043-7d8923f324eb",
-                "title": "Charcoal",
-                "left": '0px'
-            },
-            {
-                "img": "https://images.unsplash.com/photo-1546029115-712217181a58",
-                "title": "Watercolor",
-                "left": '0px'
-            },
-            {
-                "img": "https://images.unsplash.com/photo-1527602433043-7d8923f324eb",
-                "title": "Something Else",
-                "left": '0px'
-            }
-        ]
-        mediums = await this.gen_hashes(mediums)
-        this.setState({mediums: mediums})
-    }
-
 	scrollLeft() {
 		this.wrapper.current.scrollBy({
 			left: -179
@@ -196,13 +142,12 @@ export default class Slider extends Component {
 		return (
 			<Container>
 				<div>
-					<Arrow className='left' left={this.state.left} hideLeft={this.state.hideLeft} onClick={this.scrollLeft}>
+					<Arrow className='left' left={this.props.left} hideLeft={this.props.hideLeft} onClick={this.scrollLeft}>
 						<div />
 					</Arrow>
-					<SlideWrapper count={this.state.mediums?this.state.mediums.length:0} onScroll={this.scrollListener} ref={this.wrapper} onScrollCapture={this.scrollListener}>
-						{/* <SlideWrapper count={count} onScroll={this.scrollListener} onScrollCapture={this.scrollListener}> */}
+					<SlideWrapper count={this.props.mediums?this.props.mediums.length:0} onScroll={this.scrollListener} ref={this.wrapper} onScrollCapture={this.scrollListener}>
 						{
-							this.state.mediums ? this.state.mediums.map(item => <SliderItem key={item.key} data={item} />) : <div>Nothing</div>
+							this.props.mediums ? this.props.mediums.map(item => <SliderItem key={item.key} data={item} />) : <div>Nothing</div>
 						}
 					</SlideWrapper>
 					<Arrow className='right' onClick={this.scrollRight}>

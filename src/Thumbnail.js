@@ -1,4 +1,3 @@
-import react from 'react'
 import styled, { keyframes, css } from 'styled-components'
 
 const shimmer = keyframes`
@@ -12,11 +11,11 @@ const shimmer = keyframes`
 
 Thumbnail = styled.div`
 width: 17.8rem;
-height: 10rem;
+height: 17.8rem;
 
 margin-bottom: 1rem;
 
-${	
+${
     props => !props.loaded ?
     css`animation: ${shimmer} 2s linear infinite;
     animation-fill-mode: forwards;
