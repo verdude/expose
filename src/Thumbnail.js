@@ -23,7 +23,7 @@ ${
     background-image: linear-gradient(to right, #eee 0%, #fff 50%, #eee 100%);
     background-repeat: no-repeat;`
     :
-    css`background: url(${props => {return props.src}}) center no-repeat;
+    css`background: url(${props => props.src}) center no-repeat;
     background-color: gray;
     background-size: cover;`
 }

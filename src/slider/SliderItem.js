@@ -33,9 +33,9 @@ class SliderItem extends Component {
 
 	render() {
 		return (
-			<Container as={Link} to={'/grid'}>
+			<Container as={Link} to={`/grid/${this.state.title}`}>
 				<Thumbnail src={this.state.img} loaded={this.state.loaded} />
-				<h4>{this.state.title}</h4>
+				{this.state.title?<h4>{this.state.title}</h4>:null}
 			</Container>
 		)
 	}
