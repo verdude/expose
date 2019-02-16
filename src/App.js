@@ -9,8 +9,12 @@ import Grid from './grid/Grid'
 const Header = styled.header`
   display: flex;
   justify-content: center;
-  background: teal;
+  background: aquamarine;
   font-family: 'Great Vibes', cursive;
+  font-size: 7em;
+  overflow: hidden;
+  text-align: center;
+  height: 250px;
 `
 
 const Name = styled.div`
@@ -30,7 +34,7 @@ const Link = styled.a`
 const Page = styled.div`
 `
 
-const name = 'name'
+const name = 'Hannah Wong Art'
 
 class App extends Component {
 
@@ -49,9 +53,9 @@ class App extends Component {
             <Route exact path='/grid' component={Grid} />
         </Switch>
         <Footer>
-          <Link>link1</Link>
-          <Link>link2</Link>
-          <Link>link4</Link>
+          <Link href="https://instagram.com/hannahwong.art">Instagram</Link>
+          <Link>Facebook</Link>
+          <Link>Fiver</Link>
         </Footer>
       </Page>
     );
