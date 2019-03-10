@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
-import SliderItem from '../slider/SliderItem'
 import { images } from '../imgs'
 import Img from '../image/Img'
 
