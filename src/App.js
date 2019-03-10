@@ -5,6 +5,7 @@ import { Route, Switch, Link } from 'react-router-dom';
 
 import Slider from './slider/Slider'
 import Grid from './grid/Grid'
+import { images } from './imgs'
 
 const Header = styled.header`
   display: flex;
@@ -47,40 +48,17 @@ class App extends Component {
         return mediums.map((m, i) => {
             m.key = i;
             return m;
-        });
+        })
     }
 
     async componentDidMount() {
-        let mediums = [
-            {
-                "img": "https://images.unsplash.com/photo-1527602433043-7d8923f324eb",
-                "title": "Graphite"
-            },
-            {
-                "img": "https://images.unsplash.com/photo-1527602433043-7d8923f324eb",
-                "title": "Acrylic"
-            },
-            {
-                "img": "https://images.unsplash.com/photo-1527602433043-7d8923f324eb",
-                "title": "Watercolor"
-            },
-            {
-                "img": "https://images.unsplash.com/photo-1546029115-712217181a58",
-                "title": "Digital"
-            },
-            {
-                "img": "https://images.unsplash.com/photo-1527602433043-7d8923f324eb",
-                "title": "Marker"
-            },
-            {
-                "img": "https://images.unsplash.com/photo-1527602433043-7d8923f324eb",
-                "title": "Pastel"
-            },
-            {
-                "title": "Colored Pencil",
-                "img": "https://images.unsplash.com/photo-1527602433043-7d8923f324eb"
+        let mediums = Object.keys(images).map((medium) => {
+            return {
+                title: medium,
+                "img": images[medium].length > 0 ?
+                    images[medium][0] : "https://images.unsplash.com/photo-1527602433043-7d8923f324eb"
             }
-        ]
+        })
         mediums = await this.gen_keys(mediums)
         this.setState({ mediums: mediums })
     }
@@ -93,7 +71,7 @@ class App extends Component {
                 </Header>
                 <Switch>
                     <Route exact path='/' render={(props) => <Slider {...props} mediums={this.state.mediums} />} />
-                    <Route exact path='/grid/:title' render={(props) => <Grid {...props} urls={[]} />} />
+                    <Route exact path='/:title' render={(props) => <Grid {...props} />} />
                 </Switch>
                 <Footer>
                     <Anchor href="https://instagram.com/hannahwong.art">Instagram</Anchor>

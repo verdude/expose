@@ -3,14 +3,12 @@ import styled from 'styled-components'
 
 import { Link } from 'react-router-dom'
 
-import SliderItem from './SliderItem'
+import Img from '../image/Img'
 
 import arrowLeft from '../arrow-left.svg'
 import arrowRight from '../arrow-right.svg'
 
 const Container = styled.div`
-        padding: 2rem;
-
         & > div {
             position: relative;
         }
@@ -45,6 +43,7 @@ const Container = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
+        padding-top: 1em;
 
         position: absolute;
         top: 0;
@@ -147,7 +146,7 @@ export default class Slider extends Component {
                     </Arrow>
                     <SlideWrapper count={this.props.mediums ? this.props.mediums.length : 0} onScroll={this.scrollListener} ref={this.wrapper} onScrollCapture={this.scrollListener}>
                         {
-                            this.props.mediums ? this.props.mediums.map(item => <SliderItem key={item.key} data={item} />) : <div>Nothing</div>
+                            this.props.mediums ? this.props.mediums.map(item => <Img isLink={true} key={item.key} data={item} />) : <div>Nothing</div>
                         }
                     </SlideWrapper>
                     <Arrow className='right' onClick={this.scrollRight}>

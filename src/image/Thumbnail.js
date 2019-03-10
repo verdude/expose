@@ -2,10 +2,10 @@ import styled, { keyframes, css } from 'styled-components'
 
 const shimmer = keyframes`
 0% {
-	background-position: -30rem 0;
+    background-position: -30rem 0;
 }
 100% {
-		background-position: 30rem 0;
+        background-position: 30rem 0;
 }
 `,
 
