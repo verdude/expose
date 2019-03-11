@@ -12,6 +12,11 @@ const Container = styled.div`
         font-weight: 500;
         text-align: center;
     }
+
+    & div {
+        box-shadow: 7px 7px 5px #aaaaaa;
+        border-radius: 3px;
+    }
 `
 
 class Picture extends Component {
