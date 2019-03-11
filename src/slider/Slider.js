@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
-import { Link } from 'react-router-dom'
-
 import Img from '../image/Img'
 
 import arrowLeft from '../arrow-left.svg'
