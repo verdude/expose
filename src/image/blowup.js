@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 import styled, { keyframes, css } from 'styled-components'
 
-const LargeImage = styled.div`
-    top: 40px;
-    left: 40px;
-    right: 40px;
-    botton: 40px;
+const Background = styled.div`
+    background-color: rgba(0, 0, 0, .5);
     position: absolute;
-    background-color: white;
+    height: ${props => props.height}px;
+    width: ${props => props.width}px;
+    top: ${props => props.top}px;
+    left: ${props => props.left}px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
 `
 
 const shimmer = keyframes`
@@ -22,7 +25,7 @@ const shimmer = keyframes`
 const Img = styled.div`
 width: ${props => props.width }px;
 height: ${props => props.height}px;
-margin-bottom: 1rem;
+align-self: center;
 
 ${
     props => !props.loaded ?
@@ -38,12 +41,6 @@ ${
 }
 `
 
-const Closer = styled.div`
-    :hover {
-        cursor: pointer;
-    }
-`
-
 class BlowupImage extends Component {
     constructor(props) {
         super(props)
@@ -51,33 +48,89 @@ class BlowupImage extends Component {
             loaded: false,
             width: 0,
             height: 0,
-            isOpen: true
+            isOpen: true,
+            url: props.url,
+            bg: {
+                w: 0,
+                h: 0,
+                t: 0
+            }
+        }
+        this.resizer = this.resize.bind(this)
+    }
+
+    imageDimensions(ww, wh, iw, ih) {
+        let ratio = 0
+
+        if (ww < iw) {
+            ratio = ww / iw
+            iw = ww
+            ih = ih * ratio
+        }
+
+        if (wh < ih) {
+            ratio = wh / ih
+            ih = wh
+            iw = iw * ratio
+        }
+
+        return {
+            w: iw,
+            h: ih
         }
     }
 
-    calcDimensions(url) {
+    loadImage() {
         var that = this
         var temp = new Image();
         temp.onload = (e) => {
-            if (that.state.width !== e.target.width && that.state.height !== e.target.height) {
-                that.setState({loaded:true, width:e.target.width, height:e.target.height})
-            }
+            let { w, h } = this.imageDimensions(window.innerWidth, window.innerHeight, e.target.width, e.target.height)
+            that.setState({ loaded:true, width:w, height:h })
         }
-        temp.src = url
+        temp.src = this.state.url
+    }
+
+    backgroundDimensions() {
+        let winh = window.innerHeight,
+            winw = window.innerWidth,
+            top = window.scrollY,
+            left = window.scrollX
+
+        return {
+            h: winh,
+            w: winw,
+            t: top,
+            l: left
+        }
+    }
+
+    resize() {
+        this.loadImage(this.state.url)
+        let { w, h, t, l } = this.backgroundDimensions()
+        if (this.state.bg.h !== h || this.state.bg.w !== w || this.state.bg.t !== t || this.state.bg.l !== l) {
+            this.setState({ bg: { h:h, w:w, t:t, l:l } })
+        }
+    }
+
+    componentWillMount() {
+        this.resize()
+        window.addEventListener("resize", this.resizer)
+        document.body.classList.add("noscroll")
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.resizer)
+        document.body.classList.remove("noscroll")
     }
 
     render() {
-        this.calcDimensions(this.props.url)
-        if (this.props.url) {
-            return (
-                <LargeImage>
-                    <Closer onClick={this.props.close}>X</Closer>
-                    <Img loaded={this.state.loaded} width={this.state.width} height={this.state.height}
-                        src={this.props.url} />
-                </LargeImage>
-            )
-        }
-        else return null
+        return (
+            <Background onClick={this.props.close} top={this.state.bg.t} left={this.state.bg.l}
+                height={this.state.bg.h} width={this.state.bg.w}>
+                <Img loaded={this.state.loaded} width={this.state.width} height={this.state.height}
+                    src={this.props.url} />
+            </Background>
+        )
     }
 }
 

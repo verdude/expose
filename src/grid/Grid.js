@@ -28,6 +28,10 @@ class Grid extends Component {
         this.setState({largeImage:img})
     }
 
+    close() {
+        this.setState({largeImage: null})
+    }
+
     render() {
         return (
             <div>
@@ -40,7 +44,7 @@ class Grid extends Component {
                     )
                 }
                 </Grid4>
-                <BlowupImage close={() => this.setState({largeImage:null})} url={this.state.largeImage} />
+                {this.state.largeImage?<BlowupImage close={this.close.bind(this)} url={this.state.largeImage} />:null}
             </div>
         )
     }
