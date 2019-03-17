@@ -50,6 +50,7 @@ class BlowupImage extends Component {
             height: 0,
             isOpen: true,
             url: props.url,
+            mobile: window.isMobile(),
             bg: {
                 w: 0,
                 h: 0,
@@ -84,29 +85,28 @@ class BlowupImage extends Component {
         var that = this
         var temp = new Image();
         temp.onload = (e) => {
-            let { w, h } = this.imageDimensions(window.innerWidth, window.innerHeight, e.target.width, e.target.height)
-            that.setState({ loaded:true, width:w, height:h })
+            let { w:ww, h:wh } = this.bgDims()
+            let { w, h } = this.imageDimensions(ww, wh, e.target.width, e.target.height)
+            if (this.state.width !== w || this.state.height !== h) {
+                that.setState({ loaded:true, width:w, height:h })
+            }
         }
         temp.src = this.state.url
     }
 
-    backgroundDimensions() {
-        let winh = window.innerHeight,
-            winw = window.innerWidth,
-            top = window.scrollY,
-            left = window.scrollX
-
+    bgDims() {
         return {
-            h: winh,
-            w: winw,
-            t: top,
-            l: left
+            h: this.state.mobile ? document.documentElement.clientHeight : window.innerHeight,
+            w: this.state.mobile ? document.documentElement.clientWidth : window.innerWidth,
+            t: window.pageYOffset,
+            l: window.pageXOffset
         }
     }
 
     resize() {
-        this.loadImage(this.state.url)
-        let { w, h, t, l } = this.backgroundDimensions()
+        this.loadImage()
+        let { w, h, t, l } = this.bgDims()
+        console.log(t, l)
         if (this.state.bg.h !== h || this.state.bg.w !== w || this.state.bg.t !== t || this.state.bg.l !== l) {
             this.setState({ bg: { h:h, w:w, t:t, l:l } })
         }

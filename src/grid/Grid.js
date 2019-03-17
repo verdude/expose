@@ -12,6 +12,9 @@ const Grid4 = styled.div`
     & div {
         justify-self: center;
     }
+    :hover {
+        cursor: pointer;
+    }
 `
 
 class Grid extends Component {
@@ -20,7 +23,8 @@ class Grid extends Component {
         this.state = {
             urls: images[props.match.params.title],
             title: props.match.params.title,
-            largeImage: null
+            largeImage: null,
+            mobile: window.isMobile()
         }
     }
 
