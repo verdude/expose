@@ -106,7 +106,6 @@ class BlowupImage extends Component {
     resize() {
         this.loadImage()
         let { w, h, t, l } = this.bgDims()
-        console.log(t, l)
         if (this.state.bg.h !== h || this.state.bg.w !== w || this.state.bg.t !== t || this.state.bg.l !== l) {
             this.setState({ bg: { h:h, w:w, t:t, l:l } })
         }

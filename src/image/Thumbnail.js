@@ -10,8 +10,8 @@ const shimmer = keyframes`
 `,
 
 Thumbnail = styled.div`
-width: 17.8rem;
-height: 17.8rem;
+width: ${props => props.width?props.width:"17.8rem"};
+height: ${props => props.width?props.width:"17.8rem"};
 
 margin-bottom: 1rem;
 

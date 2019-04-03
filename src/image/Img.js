@@ -42,7 +42,7 @@ class Picture extends Component {
     render() {
         return (
             <Container as={this.state.isLink ? Link : undefined} to={`/${this.state.title}`}>
-                <Thumbnail src={this.state.img} loaded={this.state.loaded} />
+                <Thumbnail width={this.props.width} src={this.state.img} loaded={this.state.loaded} />
                 {this.state.title?<h4>{this.state.title}</h4>:null}
             </Container>
         )
